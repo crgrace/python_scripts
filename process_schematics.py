@@ -1,4 +1,34 @@
 #!/usr/bin/env python3
+# File Name: process_schematics.py
+# Engineer:  Carl Grace (crgrace@lbl.gov)
+# Description:
+#      Converts files into proper pdf format, renames them in a less
+#      confusing way, and puts them all in the directory called ./pdf
+# 
+#      If you give process_schematics.py an argument, it will convert
+#      a single file, if you give it no argument, it will convert all
+#      eps files in the current directory.
+#
+#      Why do we need process_schematics.py?
+#      -----------------------------------
+#      Schematic plots printed from Cadence have a few problems.
+#      1. They aren't compliant with eps standard
+#      2. They don't have a bounding box
+#
+#      How does process_schematics.py work?
+#      ------------------------------------
+#      1. converts the Virtuoso output into a proper eps file 
+#      using the eps2eps program.
+#      2. calculates the bounding box from the file using
+#      epstool
+#      3. creates temp file with proper bounding box
+#      4. uses epstopdf to generate a pdf (epstopdf requires standard 
+#      compliant eps and a bounding box).
+#
+#  Warning:
+#  If you want to do this to the whole chip, make sure you do the analog
+#  core and the padring separately. You don't want to plot any synthesized
+#  logic because every via is its own block. That makes a billion files.
 
 import os
 import sys
